@@ -1,21 +1,29 @@
 package com.freelog.cg;
 
-import org.antlr.v4.*;
-import org.stringtemplate.v4.*;
+import org.antlr.v4.Tool;
 
-import java.util.*;
-import static java.util.Map.*;
+import org.stringtemplate.v4.STGroupDir;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.ST;
+
+//import java.util.*;
+
+//import static java.util.Map.*;
+import java.util.Map;
 
 import java.io.IOException;
-import java.nio.file.*;
+
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.FileAlreadyExistsException;
+
 import java.nio.charset.StandardCharsets;
 
 /**
- * 
  *
  */
-public class CompilerGenerator 
-{
+public class CompilerGenerator {
     private String templateDir;
     private String outputDir;
     private String startingRule = "policy_grammar";
@@ -24,34 +32,35 @@ public class CompilerGenerator
     private String targetLang;
 
     private Tool tool;
-    private String [] toolArgs;
+    private String[] toolArgs;
 
     private Map<String, Map<String, String>> all_injections = TargetDependentInjection.injections;
 
-    public static enum OptionArgType { NONE, STRING } // NONE implies boolean
-	public static class Option {
-		String name;
-		OptionArgType argType;
-		String description;
+    public static enum OptionArgType {NONE, STRING} // NONE implies boolean
 
-		public Option(final String name, final String description) {
-			this(name, OptionArgType.NONE, description);
-		}
+    public static class Option {
+        String name;
+        OptionArgType argType;
+        String description;
 
-		public Option(final String name, final OptionArgType argType, final String description) {
-			this.name = name;
-			this.argType = argType;
-			this.description = description;
-		}
+        public Option(final String name, final String description) {
+            this(name, OptionArgType.NONE, description);
+        }
+
+        public Option(final String name, final OptionArgType argType, final String description) {
+            this.name = name;
+            this.argType = argType;
+            this.description = description;
+        }
     }
+
     public static Map<String, Option> optionDefs = Map.ofEntries(
-        entry("color",          new Option("-c", OptionArgType.STRING, "specify coloring definition of the compiler to be generated")),
-        entry("outputDir",      new Option("-o", OptionArgType.STRING, "specify location to generate compilers or grammars")),
-        entry("target",         new Option("-t", OptionArgType.STRING, "specify target language of the generated compilers"))
+            Map.entry("color", new Option("-c", OptionArgType.STRING, "specify coloring definition of the compiler to be generated")),
+            Map.entry("outputDir", new Option("-o", OptionArgType.STRING, "specify location to generate compilers or grammars")),
+            Map.entry("target", new Option("-t", OptionArgType.STRING, "specify target language of the generated compilers"))
     );
 
-    public static void main(String[] args )
-    {
+    public static void main(String[] args) {
         CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "./target/test-classes/generated_grammar/resource_policy.g4", "./target/test-classes", "JavaScript");
         cg.renderGrammar("Resource");
         cg.parseGrammar();
@@ -75,7 +84,7 @@ public class CompilerGenerator
         this.color = color;
         this.targetLang = targetLang;
         this.grammarFile = grammarFile;
-        this.toolArgs = new String[] {this.grammarFile, "-o", outputDir+"/targets/"+targetLang, "-Dlanguage="+targetLang};
+        this.toolArgs = new String[]{this.grammarFile, "-o", outputDir + "/targets/" + targetLang, "-Dlanguage=" + targetLang};
     }
 
     public String renderGrammar(String color) {
@@ -84,7 +93,7 @@ public class CompilerGenerator
         st.add("color", this.color);
         Map<String, String> injections = all_injections.get(this.targetLang);
         System.out.println(injections);
-        for (Map.Entry<String, String> entry: injections.entrySet()){
+        for (Map.Entry<String, String> entry : injections.entrySet()) {
             st.add(entry.getKey(), entry.getValue());
         }
         String grammar = st.render();
@@ -107,15 +116,16 @@ public class CompilerGenerator
         return "";
     }
 
-    private void writeInOutputDir(String filename, String content) throws IOException{
+    private void writeInOutputDir(String filename, String content) throws IOException {
         Path path = Paths.get(this.outputDir, filename).toAbsolutePath();
-        
+
         System.out.println(path);
         try {
             Files.createDirectories(path.getParent());
             Files.createFile(path);
-            Path file = Paths.get(outputDir+"/"+filename);
+            Path file = Paths.get(outputDir + "/" + filename);
             Files.writeString(file, content, StandardCharsets.UTF_8);
-        } catch (FileAlreadyExistsException e){}
+        } catch (FileAlreadyExistsException e) {
+        }
     }
 }
