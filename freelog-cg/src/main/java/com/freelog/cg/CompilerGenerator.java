@@ -1,23 +1,15 @@
 package com.freelog.cg;
 
 import org.antlr.v4.Tool;
-
 import org.stringtemplate.v4.STGroupDir;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.ST;
-
-//import java.util.*;
-
-//import static java.util.Map.*;
 import java.util.Map;
-
 import java.io.IOException;
-
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.FileAlreadyExistsException;
-
 import java.nio.charset.StandardCharsets;
 
 /**
