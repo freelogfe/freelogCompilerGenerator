@@ -52,11 +52,11 @@ public class CompilerGenerator {
             Map.entry("target", new Option("-t", OptionArgType.STRING, "specify target language of the generated compilers"))
     );
 
-    public static void main(String[] args) {
-        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "./target/test-classes/generated_grammar/resource_policy.g4", "./target/test-classes", "JavaScript");
-        cg.renderGrammar("Resource");
-        cg.parseGrammar();
-    }
+//    public static void main(String[] args) {
+//        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "./target/test-classes/generated_grammar/resource_policy.g4", "./target/test-classes", "JavaScript");
+//        cg.renderGrammar("Resource");
+//        cg.parseGrammar();
+//    }
 
     public CompilerGenerator() {
 
