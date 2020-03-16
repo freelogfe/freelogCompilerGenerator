@@ -24,4 +24,8 @@ public class CopyFile {
         inputStream.close(); // 关闭流
         output.close();
     }
+
+//    public static void copyFile(){
+//
+//    }
 }
