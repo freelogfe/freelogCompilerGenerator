@@ -77,10 +77,11 @@ public class CompilerGenerator {
         this.color = color;
         this.targetLang = targetLang;
         this.grammarFile = grammarFile;
-        this.toolArgs = new String[]{this.grammarFile, "-o", outputDir + "/targets/" + targetLang, "-Dlanguage=" + targetLang};
+//        this.toolArgs = new String[]{this.grammarFile, "-o", outputDir + "/targets/" + targetLang, "-Dlanguage=" + targetLang};
+        this.toolArgs = new String[]{this.grammarFile, "-o", "javascript", "-Dlanguage=" + targetLang};
     }
 
-    public String renderGrammar(String color) {
+    public void renderGrammar(String color) {
         STGroup stg = new STGroupDir(this.templateDir);
         ST st = stg.getInstanceOf(startingRule);
         st.add("color", this.color);
@@ -93,21 +94,20 @@ public class CompilerGenerator {
         try {
             writeInOutputDir("generated_grammar/resource_policy.g4", grammar);
         } catch (IOException e) {
-            System.out.println(e);
+//            System.out.println(e);
+            e.printStackTrace();
         }
-        return grammar;
     }
 
-    public boolean parseGrammar() {
+    public void parseGrammar() {
         this.tool = new Tool(this.toolArgs);
         this.tool.processGrammarsOnCommandLine();
-        return true;
     }
 
-    public String generateCompiler(String target) {
-
-        return "";
-    }
+//    public String generateCompiler(String target) {
+//
+//        return "";
+//    }
 
     private void writeInOutputDir(String filename, String content) throws IOException {
         Path path = Paths.get(this.outputDir, filename).toAbsolutePath();

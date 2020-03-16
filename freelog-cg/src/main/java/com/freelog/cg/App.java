@@ -20,7 +20,7 @@ public class App {
 
         System.out.println("Copy '.st' files done!");
 
-        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "generated_grammar/resource_policy.g4", "", "JavaScript");
+        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "generated_grammar/resourcePolicy.g4", "", "JavaScript");
         cg.renderGrammar("Resource");
         cg.parseGrammar();
         System.out.println("End!");
