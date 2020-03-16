@@ -1,12 +1,11 @@
 package com.freelog.cg;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public class CopyFile {
     public static void copyFile(String source, String dest) throws IOException {
+
+        createNotExistDir(dest);
 
         ClassLoader classLoader = App.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(source);
@@ -25,7 +24,17 @@ public class CopyFile {
         output.close();
     }
 
-//    public static void copyFile(){
-//
-//    }
+    private static void createNotExistDir(String path) {
+        File file = new File(path);
+        /*
+         * 判断父目录是否存在
+         * 	不存在：先创建父目录文件夹，再创建指定的文件。
+         */
+        if(!file.getParentFile().exists()){
+            file.getParentFile().mkdirs();
+//                file.createNewFile();
+            System.out.println("创建成功!");
+        }
+
+    }
 }
