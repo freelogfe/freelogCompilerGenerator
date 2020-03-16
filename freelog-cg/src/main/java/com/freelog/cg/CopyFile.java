@@ -26,14 +26,9 @@ public class CopyFile {
 
     private static void createNotExistDir(String path) {
         File file = new File(path);
-        /*
-         * 判断父目录是否存在
-         * 	不存在：先创建父目录文件夹，再创建指定的文件。
-         */
         if(!file.getParentFile().exists()){
             file.getParentFile().mkdirs();
 //                file.createNewFile();
-            System.out.println("创建成功!");
         }
 
     }
