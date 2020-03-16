@@ -5,7 +5,7 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupDir;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -59,9 +59,9 @@ public class CompilerGenerator {
 //        cg.parseGrammar();
 //    }
 
-    public CompilerGenerator() {
-
-    }
+//    public CompilerGenerator() {
+//
+//    }
 
     public CompilerGenerator(String templateDir, String color) {
         this(templateDir, color, "grammar", ".");
@@ -110,15 +110,14 @@ public class CompilerGenerator {
 //    }
 
     private void writeInOutputDir(String filename, String content) throws IOException {
-        Path path = Paths.get(this.outputDir, filename).toAbsolutePath();
-
-        System.out.println(path);
-        try {
-            Files.createDirectories(path.getParent());
-            Files.createFile(path);
-            Path file = Paths.get(outputDir + "/" + filename);
-            Files.writeString(file, content, StandardCharsets.UTF_8);
+//        File file = new File(outputDir + "/" + filename);
+        File file = new File(filename);
+        System.out.println(file);
+        Files.createDirectories(Paths.get(file.getParent()));
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
+            writer.write(content);
         } catch (FileAlreadyExistsException e) {
+            e.printStackTrace();
         }
     }
 }
