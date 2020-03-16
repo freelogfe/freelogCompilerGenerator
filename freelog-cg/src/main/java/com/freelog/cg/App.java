@@ -8,13 +8,13 @@ import java.io.IOException;
 public class App {
     public static void main(String[] args) throws IOException {
 
-        String[] files = new String[]{
+        String[] needCopyFiles = new String[]{
                 "grammar_templates/policy_grammar.st",
                 "grammar_templates/coloring/exhibit_coloring.g4.st",
                 "grammar_templates/coloring/resource_coloring.g4.st",
                 "grammar_templates/coloring/user_group_coloring.g4.st",
         };
-        for (String file : files) {
+        for (String file : needCopyFiles) {
             CopyFile.copyFile(file, file);
         }
 
