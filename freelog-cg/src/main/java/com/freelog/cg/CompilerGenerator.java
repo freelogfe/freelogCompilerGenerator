@@ -1,16 +1,17 @@
 package com.freelog.cg;
 
 import org.antlr.v4.Tool;
-import org.stringtemplate.v4.STGroupDir;
-import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.ST;
-import java.util.Map;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupDir;
+
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  *
@@ -52,11 +53,11 @@ public class CompilerGenerator {
             Map.entry("target", new Option("-t", OptionArgType.STRING, "specify target language of the generated compilers"))
     );
 
-    public static void main(String[] args) {
-        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "./target/test-classes/generated_grammar/resource_policy.g4", "./target/test-classes", "JavaScript");
-        cg.renderGrammar("Resource");
-        cg.parseGrammar();
-    }
+//    public static void main(String[] args) {
+//        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "generated_grammar/resource_policy.g4", "", "JavaScript");
+//        cg.renderGrammar("Resource");
+//        cg.parseGrammar();
+//    }
 
     public CompilerGenerator() {
 
