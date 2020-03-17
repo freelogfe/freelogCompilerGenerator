@@ -27,7 +27,7 @@ public class App {
                 "",
                 getArg(args,"targetLang"),
                 getArg(args, "targetDir"));
-        cg.renderGrammar("Resource");
+//        cg.renderGrammar("Resource");
         cg.parseGrammar();
         System.out.println("End!");
 
