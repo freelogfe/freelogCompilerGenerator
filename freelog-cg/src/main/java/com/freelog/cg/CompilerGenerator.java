@@ -9,7 +9,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.nio.file.Path;
+//import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
@@ -30,29 +30,29 @@ public class CompilerGenerator {
 
     private Map<String, Map<String, String>> all_injections = TargetDependentInjection.injections;
 
-    public static enum OptionArgType {NONE, STRING} // NONE implies boolean
+//    public static enum OptionArgType {NONE, STRING} // NONE implies boolean
 
-    public static class Option {
-        String name;
-        OptionArgType argType;
-        String description;
+//    public static class Option {
+//        String name;
+//        OptionArgType argType;
+//        String description;
+//
+//        public Option(final String name, final String description) {
+//            this(name, OptionArgType.NONE, description);
+//        }
+//
+//        public Option(final String name, final OptionArgType argType, final String description) {
+//            this.name = name;
+//            this.argType = argType;
+//            this.description = description;
+//        }
+//    }
 
-        public Option(final String name, final String description) {
-            this(name, OptionArgType.NONE, description);
-        }
-
-        public Option(final String name, final OptionArgType argType, final String description) {
-            this.name = name;
-            this.argType = argType;
-            this.description = description;
-        }
-    }
-
-    public static Map<String, Option> optionDefs = Map.ofEntries(
-            Map.entry("color", new Option("-c", OptionArgType.STRING, "specify coloring definition of the compiler to be generated")),
-            Map.entry("outputDir", new Option("-o", OptionArgType.STRING, "specify location to generate compilers or grammars")),
-            Map.entry("target", new Option("-t", OptionArgType.STRING, "specify target language of the generated compilers"))
-    );
+//    public static Map<String, Option> optionDefs = Map.ofEntries(
+//            Map.entry("color", new Option("-c", OptionArgType.STRING, "specify coloring definition of the compiler to be generated")),
+//            Map.entry("outputDir", new Option("-o", OptionArgType.STRING, "specify location to generate compilers or grammars")),
+//            Map.entry("target", new Option("-t", OptionArgType.STRING, "specify target language of the generated compilers"))
+//    );
 
 //    public static void main(String[] args) {
 //        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "generated_grammar/resource_policy.g4", "", "JavaScript");
@@ -64,13 +64,13 @@ public class CompilerGenerator {
 //
 //    }
 
-    public CompilerGenerator(String templateDir, String color) {
-        this(templateDir, color, "grammar", ".");
-    }
+//    public CompilerGenerator(String templateDir, String color) {
+//        this(templateDir, color, "grammar", ".");
+//    }
 
-    public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir) {
-        this(templateDir, color, grammarFile, outputDir, "JavaScript", "javascript");
-    }
+//    public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir) {
+//        this(templateDir, color, grammarFile, outputDir, "JavaScript", "javascript");
+//    }
 
     public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir, String targetLang, String targetDir) {
         this.templateDir = templateDir;
@@ -80,13 +80,28 @@ public class CompilerGenerator {
         this.targetDir = targetDir;
         this.grammarFile = grammarFile;
 //        this.toolArgs = new String[]{this.grammarFile, "-o", outputDir + "/targets/" + targetLang, "-Dlanguage=" + targetLang};
-        this.toolArgs = new String[]{this.grammarFile, "-o", this.targetDir, "-Dlanguage=" + targetLang};
+//        this.toolArgs = new String[]{this.grammarFile, "-o", this.targetDir, "-Dlanguage=" + targetLang};
+//        this.toolArgs = new String[]{"-Dlanguage=JavaScript", "-Xexact-output-dir", "-visitor", this.grammarFile, "-o", "../gen"};
+        this.toolArgs = new String[]{
+                "-visitor",
+                "-Dlanguage=" + targetLang,
+                "-Xexact-output-dir",
+                "-package",
+                "pkg",
+                "-o",
+                this.targetDir,
+                this.grammarFile
+        };
     }
 
     public void renderGrammar(String color) {
+//        STGroup stg = new STGroupDir(this.templateDir);
+        // 传入模板目录
         STGroup stg = new STGroupDir(this.templateDir);
         ST st = stg.getInstanceOf(startingRule);
+        // 添加染色
         st.add("color", this.color);
+        // 获取目标语言
         Map<String, String> injections = all_injections.get(this.targetLang);
         System.out.println(injections);
         for (Map.Entry<String, String> entry : injections.entrySet()) {

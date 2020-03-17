@@ -23,7 +23,7 @@ public class App {
         CompilerGenerator cg = new CompilerGenerator(
                 "./grammar_templates",
                 getArg(args, "color"),
-                "generated_grammar/resource_policy.g4",
+                "generated_grammar/resourcePolicy.g4",
                 "",
                 getArg(args,"targetLang"),
                 getArg(args, "targetDir"));
@@ -46,7 +46,7 @@ public class App {
             case "targetLang":
                 return "JavaScript";
             case "targetDir":
-                return "javascript";
+                return "gen";
             case "g4Files":
             case "g4Dir":
             default:
