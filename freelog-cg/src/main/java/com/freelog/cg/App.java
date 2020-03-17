@@ -23,7 +23,7 @@ public class App {
         CompilerGenerator cg = new CompilerGenerator(
                 "./grammar_templates",
                 getArg(args, "color"),
-                "generated_grammar/resourcePolicy.g4",
+                "generated_grammar/resource_policy.g4",
                 "",
                 getArg(args,"targetLang"),
                 getArg(args, "targetDir"));
