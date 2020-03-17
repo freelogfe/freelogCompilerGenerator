@@ -20,11 +20,38 @@ public class App {
 
         System.out.println("Copy '.st' files done!");
 
-        CompilerGenerator cg = new CompilerGenerator("./grammar_templates", "User", "generated_grammar/resource_policy.g4", "", "JavaScript");
+        CompilerGenerator cg = new CompilerGenerator(
+                "./grammar_templates",
+                getArg(args, "color"),
+                "generated_grammar/resource_policy.g4",
+                "",
+                getArg(args,"targetLang"),
+                getArg(args, "targetDir"));
         cg.renderGrammar("Resource");
         cg.parseGrammar();
         System.out.println("End!");
 
+    }
+
+    private static String getArg(String[] args, String key) {
+        for (String arg : args) {
+            String prefix = "--" + key + "=";
+            if (arg.startsWith(prefix)) {
+                return arg.replace(prefix, "");
+            }
+        }
+        switch (key) {
+            case "color":
+                return "Resource";
+            case "targetLang":
+                return "JavaScript";
+            case "targetDir":
+                return "javascript";
+            case "g4Files":
+            case "g4Dir":
+            default:
+                return null;
+        }
     }
 
 }

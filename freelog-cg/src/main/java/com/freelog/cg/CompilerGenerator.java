@@ -23,6 +23,7 @@ public class CompilerGenerator {
     private String color;
     private String grammarFile;
     private String targetLang;
+    private String targetDir;
 
     private Tool tool;
     private String[] toolArgs;
@@ -68,17 +69,18 @@ public class CompilerGenerator {
     }
 
     public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir) {
-        this(templateDir, color, grammarFile, outputDir, "JavaScript");
+        this(templateDir, color, grammarFile, outputDir, "JavaScript", "javascript");
     }
 
-    public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir, String targetLang) {
+    public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir, String targetLang, String targetDir) {
         this.templateDir = templateDir;
         this.outputDir = outputDir;
         this.color = color;
         this.targetLang = targetLang;
+        this.targetDir = targetDir;
         this.grammarFile = grammarFile;
 //        this.toolArgs = new String[]{this.grammarFile, "-o", outputDir + "/targets/" + targetLang, "-Dlanguage=" + targetLang};
-        this.toolArgs = new String[]{this.grammarFile, "-o", "javascript", "-Dlanguage=" + targetLang};
+        this.toolArgs = new String[]{this.grammarFile, "-o", this.targetDir, "-Dlanguage=" + targetLang};
     }
 
     public void renderGrammar(String color) {
