@@ -18,12 +18,10 @@ import java.util.Map;
  */
 public class CompilerGenerator {
     private String templateDir;
-    private String outputDir;
-    private String startingRule = "policy_grammar";
-    private String color;
-    private String grammarFile;
+//    private String color;
+//    private String grammarFile;
     private String targetLang;
-    private String targetDir;
+//    private String targetDir;
 
     private Tool tool;
     private String[] toolArgs;
@@ -60,62 +58,63 @@ public class CompilerGenerator {
 //        cg.parseGrammar();
 //    }
 
-//    public CompilerGenerator() {
-//
-//    }
-
-//    public CompilerGenerator(String templateDir, String color) {
-//        this(templateDir, color, "grammar", ".");
-//    }
-
-//    public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir) {
-//        this(templateDir, color, grammarFile, outputDir, "JavaScript", "javascript");
-//    }
-
+    /**
+     * 构造函数
+     * @param templateDir 模板目录
+     * @param color 染色
+     * @param grammarFile g4文件入口
+     * @param outputDir g4文件生成到目录
+     * @param targetLang 目标语言
+     * @param targetDir 目标目录
+     */
     public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir, String targetLang, String targetDir) {
         this.templateDir = templateDir;
-        this.outputDir = outputDir;
-        this.color = color;
+//        this.color = color;
         this.targetLang = targetLang;
-        this.targetDir = targetDir;
-        this.grammarFile = grammarFile;
-//        this.toolArgs = new String[]{this.grammarFile, "-o", outputDir + "/targets/" + targetLang, "-Dlanguage=" + targetLang};
-//        this.toolArgs = new String[]{this.grammarFile, "-o", this.targetDir, "-Dlanguage=" + targetLang};
-//        this.toolArgs = new String[]{"-Dlanguage=JavaScript", "-Xexact-output-dir", "-visitor", this.grammarFile, "-o", "../gen"};
+//        this.targetDir = targetDir;
+//        this.grammarFile = grammarFile;
         this.toolArgs = new String[]{
                 "-visitor",
                 "-Dlanguage=" + targetLang,
                 "-Xexact-output-dir",
                 "-package",
                 "pkg",
-                "-o",
-                this.targetDir,
-                this.grammarFile
+                "-o", targetDir,
+                grammarFile
         };
     }
 
+    /**
+     * 根据染色 渲染出 g4
+     * @param color 传入染色
+     */
     public void renderGrammar(String color) {
 //        STGroup stg = new STGroupDir(this.templateDir);
         // 传入模板目录
         STGroup stg = new STGroupDir(this.templateDir);
+        String startingRule = "policy_grammar";
         ST st = stg.getInstanceOf(startingRule);
         // 添加染色
-        st.add("color", this.color);
+        st.add("color", color);
         // 获取目标语言
         Map<String, String> injections = all_injections.get(this.targetLang);
-        System.out.println(injections);
+//        System.out.println(injections);
         for (Map.Entry<String, String> entry : injections.entrySet()) {
             st.add(entry.getKey(), entry.getValue());
         }
+        // 渲染出 g4 语法
         String grammar = st.render();
         try {
+            // 写入内容
             writeInOutputDir("generated_grammar/resource_policy.g4", grammar);
         } catch (IOException e) {
-//            System.out.println(e);
             e.printStackTrace();
         }
     }
 
+    /**
+     *
+     */
     public void parseGrammar() {
         this.tool = new Tool(this.toolArgs);
         this.tool.processGrammarsOnCommandLine();
@@ -126,8 +125,12 @@ public class CompilerGenerator {
 //        return "";
 //    }
 
+    /**
+     * @param filename 要生成的的文件名
+     * @param content 要写入的内容
+     * @throws IOException 抛错
+     */
     private void writeInOutputDir(String filename, String content) throws IOException {
-//        File file = new File(outputDir + "/" + filename);
         File file = new File(filename);
         System.out.println(file);
         Files.createDirectories(Paths.get(file.getParent()));
