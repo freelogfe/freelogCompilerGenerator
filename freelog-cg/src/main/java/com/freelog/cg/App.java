@@ -22,12 +22,11 @@ public class App {
 
         CompilerGenerator cg = new CompilerGenerator(
                 "./grammar_templates",
-                getArg(args, "color"),
                 "generated_grammar/resource_policy.g4",
                 "",
                 getArg(args,"targetLang"),
                 getArg(args, "targetDir"));
-//        cg.renderGrammar("Resource");
+        cg.renderGrammar(getArg(args, "color"));
         cg.parseGrammar();
         System.out.println("End!");
 

@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class CompilerGenerator {
     private String templateDir;
-//    private String color;
+    private String color;
 //    private String grammarFile;
     private String targetLang;
 //    private String targetDir;
@@ -61,13 +61,13 @@ public class CompilerGenerator {
     /**
      * 构造函数
      * @param templateDir 模板目录
-     * @param color 染色
+//     * @param color 染色
      * @param grammarFile g4文件入口
      * @param outputDir g4文件生成到目录
      * @param targetLang 目标语言
      * @param targetDir 目标目录
      */
-    public CompilerGenerator(String templateDir, String color, String grammarFile, String outputDir, String targetLang, String targetDir) {
+    public CompilerGenerator(String templateDir, String grammarFile, String outputDir, String targetLang, String targetDir) {
         this.templateDir = templateDir;
 //        this.color = color;
         this.targetLang = targetLang;
